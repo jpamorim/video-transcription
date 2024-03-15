@@ -37,14 +37,23 @@ def parse_args():
     # Parse command line arguments
     parser = argparse.ArgumentParser()
     parser.add_argument('--audio_path', required=False, type=str,  default="../data/test.wav")
+    parser.add_argument('--transcription_path', required=False, type=str,  default="../data/transcription.txt")
     args = parser.parse_args()
-    return args.audio_path
+    return args.audio_path, args.transcription_path
 
 
+def save_transcription(transcription, transcription_path):
+    # Save transcription to text file
+    transcription = transcription["text"]
+    transcription.encode('utf-8', "ignore").decode('utf-8')
+    with open(transcription_path,"w") as f:
+        f.write(transcription)
+
+ 
 def main():
-    audio_path = parse_args()
+    audio_path, transcription_path = parse_args()
     transcription = transcribe_audio(audio_path)
-    print(transcription)
+    save_transcription(transcription, transcription_path)
 
 
 if __name__=='__main__':
