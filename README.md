@@ -28,3 +28,10 @@ pip install -r requirements.txt
 ```bash
 python scripts/video_downloader.py --url <URL>
 ```
+
+5. Run the audio from video script with the filepath of the video and the output path of the audio file as arguments
+
+```bash
+python scripts/audio_from_video.py --filepath download/video --output_path download/audio.wav
+```
+
