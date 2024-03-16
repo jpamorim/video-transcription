@@ -11,8 +11,9 @@ def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('--transcription_path', required=False, type=str, default="../data/transcription.txt")
     parser.add_argument('--questions_path', required=False, type=str)
+    parser.add_argument('--answers_path', required=False, type=str, default="../data/answers.txt")
     args = parser.parse_args()
-    return args.transcription_path, args.questions_path
+    return args.transcription_path, args.questions_path, args.answers_path
 
 
 def ask_question(client, context, question):
@@ -37,14 +38,24 @@ def read_questions(filepath):
         questions = f.readlines()
     return questions
 
+
+def save_answers(answers, output_path):
+    with open(output_path, "a") as f:
+        if os.path.exists(output_path):
+            f.write("\n" + "\n".join(answers))
+        else:
+            f.write("\n".join(answers))
+            
+        
 def main():    
-    transcription_path, questions_path = parse_args()
+    transcription_path, questions_path, answers_path = parse_args()
     client, context = setup_openai_client(transcription_path)
     
     if questions_path:
         questions = read_questions(questions_path)
         answers = [ask_question(client, context, question) for question in questions]
-        print(answers)
+        save_answers(answers, answers_path)
+
     else:
         stop = False
         while not stop:
@@ -55,6 +66,7 @@ def main():
             question = input("Ask a question: ")
             answer = ask_question(client, context, question)
             print(answer)
+            save_answers([answer], answers_path)
 
 
 if __name__=='__main__':

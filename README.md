@@ -50,5 +50,5 @@ export OPENAI_API_KEY=<API_KEY>
 8. Ask question based on context of the transcription using ChaGPT API
 
 ```bash
-python scripts/question_answer.py --transcription_path download/transcription.txt --questions_path download/questions.txt
+python scripts/question_answer.py --transcription_path download/transcription.txt --questions_path download/questions.txt --answers_path download/answers.txt
 ```
