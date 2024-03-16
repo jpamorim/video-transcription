@@ -35,3 +35,20 @@ python scripts/video_downloader.py --url <URL>
 python scripts/audio_from_video.py --filepath download/video --output_path download/audio.wav
 ```
 
+6. Transcribe the audio file using the OpenAI whisper-large-v3 model
+
+```bash
+python scripts/audio_transcription.py --audio_path download/audio.wav --transcription_path download/transcription.json --timestamps True
+```
+
+7. Add OPENAI_API_KEY to the environment variables
+
+```bash
+export OPENAI_API_KEY=<API_KEY>
+```
+
+8. Ask question based on context of the transcription using ChaGPT API
+
+```bash
+python scripts/question_answer.py --transcription_path download/transcription.txt --questions_path download/questions.txt --answers_path download/answers.txt
+```
