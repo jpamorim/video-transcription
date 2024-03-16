@@ -47,8 +47,8 @@ python scripts/audio_transcription.py --audio_path download/audio.wav --transcri
 export OPENAI_API_KEY=<API_KEY>
 ```
 
-8. Ask question using ChaGPT API
+8. Ask question based on context of the transcription using ChaGPT API
 
 ```bash
-python scripts/question_answer.py
+python scripts/question_answer.py --transcription_path download/transcription.txt
 ```
