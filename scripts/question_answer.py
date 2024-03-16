@@ -10,8 +10,9 @@ API_KEY = os.getenv("OPENAI_API_KEY")
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('--transcription_path', required=False, type=str, default="../data/transcription.txt")
+    parser.add_argument('--questions_path', required=False, type=str)
     args = parser.parse_args()
-    return args.transcription_path
+    return args.transcription_path, args.questions_path
 
 
 def ask_question(client, context, question):
@@ -31,13 +32,29 @@ def setup_openai_client(filepath):
         context = f.read()
     return client, context
 
+def read_questions(filepath):
+    with open(filepath, "r") as f:
+        questions = f.readlines()
+    return questions
 
 def main():    
-    transcription_path = parse_args()
+    transcription_path, questions_path = parse_args()
     client, context = setup_openai_client(transcription_path)
-    question = input("Ask a question: ")
-    answer = ask_question(client, context, question)
-    print(answer)
+    
+    if questions_path:
+        questions = read_questions(questions_path)
+        answers = [ask_question(client, context, question) for question in questions]
+        print(answers)
+    else:
+        stop = False
+        while not stop:
+            question = input("Write your question: ")
+            if question == "stop":
+                stop = True
+                break
+            question = input("Ask a question: ")
+            answer = ask_question(client, context, question)
+            print(answer)
 
 
 if __name__=='__main__':
