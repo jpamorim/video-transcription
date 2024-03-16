@@ -3,3 +3,5 @@ ffmpeg
 torch
 transformers
 accelerate
+openai
+python-dotenv

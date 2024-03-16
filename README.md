@@ -41,3 +41,14 @@ python scripts/audio_from_video.py --filepath download/video --output_path downl
 python scripts/audio_transcription.py --audio_path download/audio.wav --transcription_path download/transcription.json --timestamps True
 ```
 
+7. Add OPENAI_API_KEY to the environment variables
+
+```bash
+export OPENAI_API_KEY=<API_KEY>
+```
+
+8. Ask question using ChaGPT API
+
+```bash
+python scripts/question_answer.py
+```
