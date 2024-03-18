@@ -52,3 +52,9 @@ export OPENAI_API_KEY=<API_KEY>
 ```bash
 python scripts/question_answer.py --transcription_path download/transcription.txt --questions_path download/questions.txt --answers_path download/answers.txt
 ```
+
+9. Execute bash script transcribe.sh to run the entire pipeline
+
+```bash
+./transcribe_url.sh <URL>
+```
