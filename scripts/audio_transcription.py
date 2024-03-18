@@ -4,7 +4,7 @@ import torch
 from transformers import AutoModelForSpeechSeq2Seq, AutoProcessor, pipeline
 
 
-def transcribe_audio(audio_path):
+def transcribe_audio(audio_path, language):
     device = "cuda:0" if torch.cuda.is_available() else "cpu"
     
     torch_dtype = torch.float16 if torch.cuda.is_available() else torch.float32
@@ -30,7 +30,7 @@ def transcribe_audio(audio_path):
         device=device,
     )
 
-    result = pipe(audio_path, return_timestamps=True)
+    result = pipe(audio_path, return_timestamps=True, generate_kwargs={"language": language})
     return result  
 
 
@@ -40,8 +40,9 @@ def parse_args():
     parser.add_argument('--audio_path', required=False, type=str,  default="../data/test.wav")
     parser.add_argument('--transcription_path', required=False, type=str,  default="../data/transcription.txt")
     parser.add_argument('--timestamps', required=False, type=bool,  default=False)
+    parser.add_argument('--language', required=False, type=str,  default="english")
     args = parser.parse_args()
-    return args.audio_path, args.transcription_path, args.timestamps
+    return args.audio_path, args.transcription_path, args.timestamps, args.language
 
 
 def save_transcription_txt(transcription, transcription_path):
@@ -59,8 +60,8 @@ def save_transcription_json(transcription, transcription_path):
 
  
 def main():
-    audio_path, transcription_path, timestamps = parse_args()
-    transcription = transcribe_audio(audio_path)
+    audio_path, transcription_path, timestamps, language = parse_args()
+    transcription = transcribe_audio(audio_path, language)
     
     if timestamps:
         save_transcription_json(transcription, transcription_path)
